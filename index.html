@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!-- Esta aula tem como objetivo apresentar e trabalhar imagens -->
+<html lang="pt-BR">
+    <head>
+        <title>Imagem</title>
+        <link rel="stylesheet" href="styles.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto|Sirin+Stencil" rel="stylesheet">
+        <meta charset="UTF-8">
+        <link rel="icon" href="Imagens/Icon1/favicon.ico" type="image/x-icon"?v=2 />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Incício do Script do Canvas -->
+        <style>
+            canvas {
+                border:1px solid #d3d3d3;
+/*                background-color: #f1f1f1;*/
+				background-color: #A0A0A0;
+            }
+            .container{
+				float: left;
+				display:block;
+			}
+        </style>
+        <script type="text/javascript">
+            var myGamePiece_red;
+
+			function startGame() {
+				myGamePiece_red = new component(30, 30, "red", 10, 120);				
+				myGameArea.start();
+			}
+
+			var myGameArea = {
+				canvas : document.createElement("canvas"),
+				start : function() {
+					this.canvas.width = 1220;
+					this.canvas.height = 270;
+					this.context = this.canvas.getContext("2d");
+					document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+					this.interval = setInterval(updateGameArea, 20);
+				},
+				clear : function() {
+					this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+				}
+			}
+
+			function component(width, height, color, x, y) {
+				this.width = width;
+				this.height = height;
+				this.speedX = 0;
+				this.speedY = 0;
+				this.x = x;
+				this.y = y;    
+				this.update = function() {
+					ctx = myGameArea.context;
+					ctx.fillStyle = color;
+					ctx.fillRect(this.x, this.y, this.width, this.height);
+				}
+				this.newPos = function() {
+					this.x += this.speedX;
+					this.y += this.speedY;        
+				}    
+			}
+
+			function updateGameArea() {
+				myGameArea.clear();
+				myGamePiece_red.newPos();    
+				myGamePiece_red.update();
+			}
+
+			function moveup_red() {
+				myGamePiece_red.speedY -= 1; 
+			}
+
+			function movedown_red() {
+				myGamePiece_red.speedY += 1; 
+			}
+
+			function moveleft_red() {
+				myGamePiece_red.speedX -= 1; 
+			}
+
+			function moveright_red() {
+				myGamePiece_red.speedX += 1; 
+			}
+			function clearmove_red() {
+				myGamePiece_red.speedX = 0; 
+				myGamePiece_red.speedY = 0; 
+			}
+        </script>
+        
+        <!-- Fim do Script do canvas-->
+        
+        
+        
+    </head>
+    <body onload="startGame();">
+		<div>			
+			<div style="text-align:center;width:400px;" class="container">
+				<p style="text-align:center;">Vermelho</p>
+				<button onmousedown="moveup_red()" onmouseup="clearmove_red()" ontouchstart="moveup_red()">UP</button><br><br>
+				<button onmousedown="moveleft_red()" onmouseup="clearmove_red()" ontouchstart="moveleft_red()">LEFT</button>
+				<button onmousedown="moveright_red()" onmouseup="clearmove_red()" ontouchstart="moveright_red()">RIGHT</button><br><br>
+				<button onmousedown="movedown_red()" onmouseup="clearmove_red()" ontouchstart="movedown_red()">DOWN</button>
+			</div>						
+		</div>
+            
+    </body>
+</html>
